@@ -1,20 +1,19 @@
-// Association.jsx
 import React from "react";
 import "../App.css";
 import { Image as ImageIcon, Info as InfoIcon, SupportAgent as SupportIcon } from "@mui/icons-material";
 
 const Association = () => {
 	return (
-		<section className="association-section" >
+		<section className="association-section" id="association">
 			<div
 				className="association-banner"
 				style={{
-					backgroundImage: "url('https://uca.uz/images/corpo.png')",
+					backgroundImage: "url('https://yt3.googleusercontent.com/ytc/AIdro_lBx7zYMSkeMHomiu3ORLOFwJmo04kN9cl6RwK_bVvjww=s900-c-k-c0x00ffffff-no-rj')",
 					backgroundSize: "contain",
 					backgroundRepeat: "no-repeat",
 					backgroundPosition: "center",
 					height: "500px",
-					padding : "20px",
+					padding: "20px",
 					backgroundColor: "#000",
 				}}
 			></div>
@@ -22,23 +21,23 @@ const Association = () => {
 			<div className="association-grid">
 				<div className="feature-block">
 					<ImageIcon sx={{ fontSize: 48, color: '#ffc107', mb: 2 }} />
-					<h4>Коммуникативность.</h4>
+					<h4>Communication</h4>
 					<p>
-						Участие в формировании и реализации спортивно-массовых мероприятий, а также организация и проведение республиканских и международных чемпионатов.
+						Participation in the formation and implementation of sports mass events, as well as the organization and conduct of national and international championships.
 					</p>
 				</div>
 				<div className="feature-block">
 					<InfoIcon sx={{ fontSize: 48, color: '#ffc107', mb: 2 }} />
-					<h4>Информативность.</h4>
+					<h4>Information</h4>
 					<p>
-						Содействие развитию в Узбекистане компьютерного спорта как нового вида спортивной соревновательной деятельности и специальной практики.
+						Promoting the development of e-sports in Uzbekistan as a new type of competitive sporting activity and specialized practice.
 					</p>
 				</div>
 				<div className="feature-block">
 					<SupportIcon sx={{ fontSize: 48, color: '#ffc107', mb: 2 }} />
-					<h4>Поддержка.</h4>
+					<h4>Support</h4>
 					<p>
-						Организационная и методическая поддержка киберспорта в специализированных спортивных учреждениях, спортивных клубах и иных организациях.
+						Organizational and methodological support for e-sports in specialized sports institutions, sports clubs, and other organizations.
 					</p>
 				</div>
 			</div>

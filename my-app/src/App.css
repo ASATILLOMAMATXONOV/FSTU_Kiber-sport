@@ -84,9 +84,9 @@ body {
 }
 
 .main-text h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
-  line-height: 1.4;
+  line-height: 1;
 }
 
 .scroll-indicator {
@@ -108,7 +108,19 @@ body {
 }
 
 
+@keyframes glowingBorder {
+  0% {
+    box-shadow: 0 0 5px #ffc107, 0 0 10px #ffc107;
+  }
 
+  50% {
+    box-shadow: 0 0 15px #ffc107, 0 0 30px #ffc107;
+  }
+
+  100% {
+    box-shadow: 0 0 5px #ffc107, 0 0 10px #ffc107;
+  }
+}
 
 
 
@@ -138,11 +150,25 @@ body {
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+.feature-block:hover {
+  border: 2px solid #ffc107;
+  box-shadow: 0 0 12px #ffc107, 0 0 24px #ffc107;
+  animation: borderGlow 3s ease-in-out infinite;
 }
 
-.feature-block:hover {
-  transform: translateY(-5px);
+@keyframes borderGlow {
+  0% {
+    box-shadow: 0 0 12px #ffc107, 0 0 24px #ffc107;
+  }
+  50% {
+    box-shadow: 0 0 18px #ffc107, 0 0 30px #ffc107;
+  }
+  100% {
+    box-shadow: 0 0 12px #ffc107, 0 0 24px #ffc107;
+  }
 }
 
 .feature-icon-box {
