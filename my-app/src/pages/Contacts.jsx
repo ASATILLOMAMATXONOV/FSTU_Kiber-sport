@@ -12,6 +12,7 @@ const RegisterForm = () => {
 	});
 
 	const [visible, setVisible] = useState(false);
+	const [confirmationMessage, setConfirmationMessage] = useState("");
 
 	useEffect(() => {
 		setTimeout(() => setVisible(true), 100);
@@ -25,23 +26,43 @@ const RegisterForm = () => {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Submitted:", formData);
-		alert("✅ Registration successful!");
-		setFormData({
-			name: "",
-			email: "",
-			phone: "",
-			game: "",
-			isTeam: false,
-			teamName: "",
-			teamMembers: "",
-		});
+
+		try {
+			const response = await fetch("http://localhost:3001/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (response.ok) {
+				setConfirmationMessage("✅ Ro‘yxat qabul qilindi. Javob elektron pochtangizga yuboriladi.");
+				setFormData({
+					name: "",
+					email: "",
+					phone: "",
+					game: "",
+					isTeam: false,
+					teamName: "",
+					teamMembers: "",
+				});
+
+				// 5 soniyadan keyin xabarni yo'qotish
+				setTimeout(() => setConfirmationMessage(""), 5000);
+			} else {
+				setConfirmationMessage("❌ Xatolik yuz berdi. Qayta urinib ko‘ring.");
+			}
+		} catch (error) {
+			console.error("Error submitting form:", error);
+			setConfirmationMessage("❌ Server bilan bog‘lanishda muammo.");
+		}
 	};
 
 	return (
-		<div style={pageStyle} id="contacts">
+		<div style={pageStyle} id="aloqa">
 			<div
 				style={{
 					...formContainer,
@@ -50,98 +71,52 @@ const RegisterForm = () => {
 					transition: "all 0.6s ease-out",
 				}}
 			>
-				<h2 style={headingStyle}>🕹 Register for the CyberSport Game</h2>
+				<h2 style={headingStyle}>🕹 Kibersport o‘yini uchun ro‘yxatdan o‘ting</h2>
 				<p style={{ color: "#ccc", marginBottom: "1.5rem" }}>
-					Please fill in the form below:
+					Iltimos, quyidagi formani to‘ldiring:
 				</p>
 
 				<form onSubmit={handleSubmit} style={formStyle}>
-					<input
-						type="text"
-						name="name"
-						placeholder="Your Name"
-						value={formData.name}
-						onChange={handleChange}
-						required
-						style={inputStyle}
-					/>
-					<input
-						type="email"
-						name="email"
-						placeholder="Email Address"
-						value={formData.email}
-						onChange={handleChange}
-						required
-						style={inputStyle}
-					/>
-					<input
-						type="tel"
-						name="phone"
-						placeholder="Phone Number"
-						value={formData.phone}
-						onChange={handleChange}
-						required
-						style={inputStyle}
-					/>
+					<input type="text" name="name" placeholder="Ismingiz" value={formData.name} onChange={handleChange} required style={inputStyle} />
+					<input type="email" name="email" placeholder="Elektron pochta manzili" value={formData.email} onChange={handleChange} required style={inputStyle} />
+					<input type="tel" name="phone" placeholder="Telefon raqami" value={formData.phone} onChange={handleChange} required style={inputStyle} />
 
-					<select
-						name="game"
-						value={formData.game}
-						onChange={handleChange}
-						required
-						style={inputStyle}
-					>
-						<option value="">-- Select a Game --</option>
+					<select name="game" value={formData.game} onChange={handleChange} required style={inputStyle}>
+						<option value="">-- O‘yin turini tanlang --</option>
 						<option value="CS2">CS2 (Counter-Strike 2)</option>
 						<option value="Dota 2">Dota 2</option>
 						<option value="FC25">FC25</option>
-						<option value="Just Dance">FIJITAL Dance (Just Dance)</option>
+						<option value="Just Dance">FIJITAL Raqs (Just Dance)</option>
 					</select>
 
 					<label style={{ color: "#ccc", fontSize: "0.95rem" }}>
-						<input
-							type="checkbox"
-							name="isTeam"
-							checked={formData.isTeam}
-							onChange={handleChange}
-							style={{ marginRight: "8px" }}
-						/>
-						I am registering as part of a team
+						<input type="checkbox" name="isTeam" checked={formData.isTeam} onChange={handleChange} style={{ marginRight: "8px" }} />
+						Men jamoa tarkibida ro‘yxatdan o‘tyapman
 					</label>
 
 					{formData.isTeam && (
 						<>
-							<input
-								type="text"
-								name="teamName"
-								placeholder="Team Name"
-								value={formData.teamName}
-								onChange={handleChange}
-								required
-								style={inputStyle}
-							/>
-							<textarea
-								name="teamMembers"
-								placeholder="Team members' names (separated by commas)"
-								value={formData.teamMembers}
-								onChange={handleChange}
-								required
-								rows="3"
-								style={{ ...inputStyle, resize: "vertical" }}
-							/>
+							<input type="text" name="teamName" placeholder="Jamoa nomi" value={formData.teamName} onChange={handleChange} required style={inputStyle} />
+							<textarea name="teamMembers" placeholder="Jamoa a'zolari (vergul bilan)" value={formData.teamMembers} onChange={handleChange} required rows="3" style={{ ...inputStyle, resize: "vertical" }} />
 						</>
 					)}
 
 					<button type="submit" style={buttonStyle}>
-						🚀 Submit Registration
+						🚀 Ro‘yxatni yuborish
 					</button>
+
+					{confirmationMessage && (
+						<div style={confirmationStyle}>
+							{confirmationMessage}
+						</div>
+					)}
 				</form>
 			</div>
 		</div>
 	);
 };
 
-// 💅 STYLES
+// 🎨 STYLELAR
 const pageStyle = {
 	backgroundImage: `linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url("https://pic.rutubelist.ru/video/2024-09-29/84/a9/84a9b8438d51484a8f7ce079526264ee.jpg")`,
 	backgroundSize: "cover",
@@ -178,12 +153,12 @@ const formStyle = {
 const inputStyle = {
 	padding: "12px",
 	borderRadius: "8px",
-	border: "1px solid #444",
+	border: "2px solid #444",
 	backgroundColor: "#1a1a1a",
 	color: "#fff",
 	fontSize: "1rem",
 	outline: "none",
-	transition: "border 0.3s ease",
+	transition: "border 0.4s ease-in-out",
 };
 
 const buttonStyle = {
@@ -197,5 +172,27 @@ const buttonStyle = {
 	cursor: "pointer",
 	transition: "transform 0.2s ease, background-color 0.3s ease",
 };
+
+const confirmationStyle = {
+	marginTop: "1rem",
+	padding: "12px",
+	border: "2px solid #ffc107",
+	borderRadius: "8px",
+	backgroundColor: "#1a1a1a",
+	color: "#ffc107",
+	textAlign: "center",
+	fontWeight: "bold",
+	animation: "pulseBorder 1s ease-in-out infinite alternate",
+};
+
+// ✨ Animatsiya qo‘shish uchun CSS qo‘shing
+const styleSheet = document.createElement("style");
+styleSheet.innerHTML = `
+@keyframes pulseBorder {
+	0% { border-color: #ffc107; }
+	100% { border-color: #fff700; }
+}
+`;
+document.head.appendChild(styleSheet);
 
 export default RegisterForm;

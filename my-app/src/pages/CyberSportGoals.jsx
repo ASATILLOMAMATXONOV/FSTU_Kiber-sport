@@ -5,46 +5,47 @@ const CyberSportGoals = () => {
 	const sections = [
 		{
 			icon: "🎓",
-			title: "Development",
+			title: "Rivojlanish",
 			description:
-				"Supporting the growth of e-sports in Uzbekistan as a new form of competitive activity.",
+				"O‘zbekistonda kibersportni raqobatbardosh faoliyatning yangi turi sifatida rivojlantirishni qo‘llab-quvvatlash.",
 		},
 		{
 			icon: "🏁",
-			title: "Tournaments",
+			title: "Turnirlar",
 			description:
-				"Organizing national and international e-sports events in Uzbekistan.",
+				"O‘zbekistonda milliy va xalqaro kibersport musobaqalarini tashkil etish.",
 		},
 		{
 			icon: "🏆",
-			title: "International Relations",
+			title: "Xalqaro aloqalar",
 			description:
-				"Supporting Uzbekistan's participation in global e-sports competitions.",
+				"O‘zbekistonning jahon kibersport musobaqalarida ishtirokini qo‘llab-quvvatlash.",
 		},
 		{
 			icon: "📁",
-			title: "Regulations",
+			title: "Me'yoriy hujjatlar",
 			description:
-				"Developing requirements and standards for awarding sports titles and rankings.",
+				"Sport unvonlari va darajalarini berish bo‘yicha talablar va standartlarni ishlab chiqish.",
 		},
 		{
 			icon: "🤝",
-			title: "Cooperation",
+			title: "Hamkorlik",
 			description:
-				"Supporting clubs and institutions engaged in the development of e-sports.",
+				"Kibersportni rivojlantirish bilan shug‘ullanayotgan klublar va muassasalarni qo‘llab-quvvatlash.",
 		},
 		{
 			icon: "🛎",
-			title: "Events",
+			title: "Tadbirlar",
 			description:
-				"Holding forums, contests, seminars, and various public events.",
+				"Forumlar, tanlovlar, seminarlar va turli ommaviy tadbirlarni o‘tkazish.",
 		},
 	];
 
+
 	return (
-		<div id="goals" style={{ backgroundColor: "#000", padding: "2rem", color: "#fff", paddingTop: "4rem" }}>
+		<div id="turlar" style={{ backgroundColor: "#000", padding: "2rem", color: "#fff", paddingTop: "4rem" }}>
 			<h2 style={{ textAlign: "center", fontSize: "1.8rem", marginBottom: "2rem" }}>
-				🎯 Goals of E-sports Development and Promotion
+				🎯 Kibersportni rivojlantirish va targ‘ib qilish maqsadlari
 			</h2>
 
 			<div className="cybersport-grid">

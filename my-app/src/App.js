@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import Association from "./pages/Association";
 import CyberSportGoals from "./pages/CyberSportGoals";
 import Contacts from "./pages/Contacts";
+import Footer from "./pages/Footer";
 import "./App.css";
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
     <HomePage />
     <Association />
     <CyberSportGoals />
-    <Contacts />
+        <Contacts />
+        <Footer />
   </div>
 </Router>
   );

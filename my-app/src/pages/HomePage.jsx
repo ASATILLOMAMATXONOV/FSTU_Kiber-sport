@@ -1,73 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "../App.css";
-import { motion, AnimatePresence } from "framer-motion";
-import { Box } from "@mui/material";
-import { Typography } from "@mui/material";
+import { motion } from "framer-motion";
+import { Box, Typography } from "@mui/material";
+import video1 from "../assets/dota_montage_webm.webm";
+import video2 from "../assets/CS2.mp4";
+import video3 from "../assets/FC25.mp4";
 
-
-const backgroundImages = [
-	"https://steamuserimages-a.akamaihd.net/ugc/921434607320298427/D44C16D493BCB5C1198CC165966E5E659CD70563/?imw=512&imh=288&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-	"https://steamuserimages-a.akamaihd.net/ugc/425941828286838910/CC2FE4A28AD2E260283114E1901DD84C8A8E6890/?imw=512&amp;imh=288&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=true",
-	"https://img2.joyreactor.cc/pics/post/-%D0%A4%D1%83%D1%82%D0%B1%D0%BE%D0%BB-%D1%80%D0%B0%D0%B7%D0%BD%D0%BE%D0%B5-%D0%B3%D0%B8%D1%84%D0%BA%D0%B8-963624.gif",
-	"https://steamuserimages-a.akamaihd.net/ugc/448484014572851122/77656E66F68EDEE762D2C1E147E8ED74B4DFE0D1/?imw=5000&amp;imh=5000&amp;ima=fit&amp;impolicy=Letterbox&amp;imcolor=%23000000&amp;letterbox=false",
-];
+const videoList = [video1, video2, video3];
 
 const HomePage = () => {
-	const [currentImage, setCurrentImage] = useState(0);
+	const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			goToNextImage();
-		}, 5000);
+			setCurrentVideoIndex((prev) => (prev + 1) % videoList.length);
+		}, 10000); // 7 sekundda almashadi
 		return () => clearInterval(interval);
 	}, []);
 
-	const goToNextImage = () => {
-		setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
-	};
-
-	const getNextImageIndex = () => {
-		return (currentImage + 1) % backgroundImages.length;
-	};
-
 	return (
-		<motion.div id="home"
+		<motion.div
+			id="home"
 			className="slider-wrapper"
 			initial={{ opacity: 0, scale: 0.98 }}
 			animate={{ opacity: 1, scale: 1 }}
 			exit={{ opacity: 0, scale: 0.95 }}
 			transition={{ duration: 0.8, ease: "easeOut" }}
-			style={{ position: "relative" }}
+			style={{ position: "relative", overflow: "hidden" }}
 		>
-			<AnimatePresence mode="wait">
-				<motion.img
-					key={backgroundImages[currentImage]}
-					src={backgroundImages[currentImage]}
-					alt="slider"
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					transition={{ duration: 1 }}
-					className="slider-img fullscreen"
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 0,
-						width: "100%",
-						height: "100vh",
-						objectFit: "cover",
-						zIndex: 0,
-					}}
-				/>
-			</AnimatePresence>
+			{/* 🎬 Background video */}
+			<video
+				src={videoList[currentVideoIndex]}
+				autoPlay
+				muted
+				loop
+				playsInline
+				style={{
+					position: "absolute",
+					width: "100%",
+					height: "100vh",
+					objectFit: "cover",
+					top: 0,
+					left: 0,
+					zIndex: 0,
+				}}
+			/>
 
+			{/* 🔳 Overlay content */}
 			<div className="overlay">
 				<Navbar />
 				<Box
 					className="main-text"
 					sx={{
-						display: { xs: "none", md: "block" }, // 👉 faqat md va undan katta ekranda ko‘rinadi
+						display: { xs: "none", md: "block" },
 						position: "absolute",
 						top: "72%",
 						left: "50%",
@@ -95,38 +81,11 @@ const HomePage = () => {
 							zIndex: 10,
 						}}
 					>
-						Participation in the <br /> FSTU CYBERSPORT  <br />competition
+						Yangi malumotlar, <br /> yangi g‘oyalar,
 					</Typography>
 
 					<div className="scroll-indicator">⬇</div>
 				</Box>
-
-
-
-
-				{/* Keyingi rasm preview */}
-				<div
-					style={{
-						position: "absolute",
-						bottom: "5px",
-						right: "5px",
-						width: "120px",
-						height: "70px",
-						borderRadius: "8px",
-						overflow: "hidden",
-						cursor: "pointer",
-						zIndex: 11,
-						boxShadow: "0 0 10px rgba(0,0,0,0.5)",
-					}}
-					onClick={goToNextImage}
-					title="Keyingi slaydga o‘tish"
-				>
-					<img
-						src={backgroundImages[getNextImageIndex()]}
-						alt="Next preview"
-						style={{ width: "100%", height: "100%", objectFit: "cover", transition: "0.3s" }}
-					/>
-				</div>
 			</div>
 		</motion.div>
 	);
