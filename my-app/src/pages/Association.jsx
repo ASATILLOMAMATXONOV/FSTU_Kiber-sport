@@ -1,10 +1,13 @@
 import React from "react";
-import "../App.css";
 import { motion } from "framer-motion";
-import { Image as ImageIcon, Info as InfoIcon, SupportAgent as SupportIcon } from "@mui/icons-material";
 import corpoImg from "../assets/corpo.jpg";
+import { useNavigate } from "react-router-dom";
+import GavelIcon from '@mui/icons-material/Gavel';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
-// Umumiy container uchun delaylar
+
+
 const containerVariants = {
 	hidden: {},
 	visible: {
@@ -14,7 +17,6 @@ const containerVariants = {
 	},
 };
 
-// Harakat yo‘nalishiga qarab variantlar
 const fromTop = {
 	hidden: { opacity: 0, y: -100 },
 	visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -36,31 +38,34 @@ const fromRight = {
 };
 
 const Association = () => {
+	const navigate = useNavigate();
+
 	const features = [
 		{
-			icon: <ImageIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
-			title: "Aloqa",
-			text: "Sport tadbirlarini tashkil qilish va amalga oshirishda ishtirok etish, shuningdek, milliy va xalqaro chempionatlarni o'tkazish.",
+			icon: <GavelIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
+			title: "N I Z O M L A R",
+			text: "Sport tadbirlarini tashkil qilish va amalga oshirishda ishtirok etish...",
 			animation: fromLeft,
+			link: "/nizomlar",
 		},
 		{
-			icon: <InfoIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
+			icon: <EmojiEventsIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
 			title: "Ma'lumot",
-			text: "Kibersportni O‘zbekistonda raqobatbardosh sport faoliyatining yangi turi sifatida rivojlantirishga ko‘maklashish.",
+			text: "Kibersportni raqobatbardosh faoliyat sifatida rivojlantirish...",
 			animation: fromBottom,
+			link: "/malumot",
 		},
 		{
-			icon: <SupportIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
+			icon: <SupervisorAccountIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
 			title: "Qo‘llab-quvvatlash",
-			text: "Kibersportni sport muassasalari, sport klublari va boshqa tashkilotlarda tashkiliy va metodik jihatdan qo‘llab-quvvatlash.",
+			text: "Metodik va tashkiliy qo‘llab-quvvatlash...",
 			animation: fromRight,
+			link: "/qollab",
 		},
 	];
 
-
 	return (
 		<motion.section
-			
 			className="association-section"
 			id="haqida"
 			variants={containerVariants}
@@ -87,6 +92,8 @@ const Association = () => {
 						className="feature-block"
 						key={index}
 						variants={item.animation}
+						onClick={() => navigate(item.link)}
+						style={{ cursor: "pointer" }}
 					>
 						{item.icon}
 						<h4>{item.title}</h4>

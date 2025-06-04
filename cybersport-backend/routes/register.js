@@ -3,36 +3,25 @@ const router = express.Router();
 const db = require("../db");
 const { notifyTelegram } = require("../telegram");
 
-// routes/register.js
 router.post("/", async (req, res) => {
-	const { name, email, phone, game, isTeam, teamName, teamMembers } = req.body;
-	console.log("Received registration data:", req.body);
+  const { name, phone, game, isTeam, teamName, teamMembers } = req.body;
 
-	try {
-		const result = await db.query(
-			`INSERT INTO registrations (name, email, phone, game, is_team, team_name, team_members)
-			 VALUES ($1, $2, $3, $4, $5, $6, $7)
-			 RETURNING *`,
-			[
-				name,
-				email,
-				phone,
-				game,
-				isTeam,
-				isTeam ? teamName : null,
-				isTeam ? teamMembers : null,
-			]
-		);
+  try {
+    const result = await db.query(
+      `INSERT INTO registrations (name, phone, game, is_team, team_name, team_members)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING *`,
+      [name, phone, game, isTeam, teamName, teamMembers]
+    );
 
-		const inserted = result.rows[0];
-		await notifyTelegram(inserted); // ✅ to‘g‘ri chaqiruv
+    const savedUser = result.rows[0];
+    await notifyTelegram(savedUser);
 
-		res.status(201).json({ message: "Ro‘yxat olindi va adminga yuborildi." });
-	} catch (err) {
-		console.log("Server xatosi:", err);
-		res.status(500).json({ error: err.message });
-	}
+    res.status(200).json({ message: "✅ Ro‘yxatdan o‘tildi!", user: savedUser });
+  } catch (err) {
+    console.error("❌ Ro‘yxatdan o‘tishda xato:", err.message);
+    res.status(500).json({ error: "Xatolik yuz berdi." });
+  }
 });
-
 
 module.exports = router;

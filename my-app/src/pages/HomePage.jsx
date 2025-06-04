@@ -6,6 +6,7 @@ import { Box, Typography } from "@mui/material";
 import video1 from "../assets/dota_montage_webm.webm";
 import video2 from "../assets/CS2.mp4";
 import video3 from "../assets/FC25.mp4";
+import Countdown from "../components/Countdown";
 
 const videoList = [video1, video2, video3];
 
@@ -81,7 +82,9 @@ const HomePage = () => {
 							zIndex: 10,
 						}}
 					>
-						Yangi malumotlar, <br /> yangi g‘oyalar,
+						<h2>
+						<Countdown targetDate="2025-06-09T00:00:00" /> 
+						</h2>
 					</Typography>
 
 					<div className="scroll-indicator">⬇</div>

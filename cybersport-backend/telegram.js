@@ -1,72 +1,92 @@
-const axios = require("axios");
+const TelegramBot = require("node-telegram-bot-api");
+const ExcelJS = require("exceljs");
+const fs = require("fs");
 require("dotenv").config();
-const sendConfirmationEmail = require("./mailer");
+const db = require("./db");
 
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
+
+bot.setMyCommands([
+  { command: "/menu", description: "Asosiy menyuni ko‘rsatish" }
+]);
+
+bot.onText(/\/menu/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, "📋 Asosiy menyu:", {
+    reply_markup: {
+      keyboard: [
+        [{ text: "📄 Foydalanuvchilar ma’lumoti" }],
+        [{ text: "ℹ️ Ma'lumot" }]
+      ],
+      resize_keyboard: true
+    }
+  });
+});
+
+bot.on("message", async (msg) => {
+  const chatId = msg.chat.id;
+  const text = msg.text;
+
+  if (text === "📄 Foydalanuvchilar ma’lumoti") {
+    try {
+      const result = await db.query("SELECT * FROM registrations");
+      const users = result.rows;
+
+      if (!users.length) {
+        return bot.sendMessage(chatId, "⛔ Hech qanday ro‘yxat topilmadi.");
+      }
+
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Registratsiyalar");
+
+      worksheet.columns = [
+        { header: "ID", key: "id", width: 10 },
+        { header: "Ism", key: "name", width: 20 },
+        { header: "Telefon", key: "phone", width: 20 },
+        { header: "O‘yini", key: "game", width: 20 },
+        { header: "Jamoa", key: "is_team", width: 10 },
+        { header: "Jamoa nomi", key: "team_name", width: 20 },
+        { header: "A’zolar", key: "team_members", width: 30 }
+      ];
+
+      users.forEach(user => worksheet.addRow(user));
+
+      const fileName = `users_${Date.now()}.xlsx`;
+      await workbook.xlsx.writeFile(fileName);
+      await bot.sendDocument(chatId, fs.createReadStream(fileName));
+      fs.unlinkSync(fileName);
+    } catch (err) {
+      console.error("❌ Excel yuborishda xato:", err);
+      bot.sendMessage(chatId, "Xatolik yuz berdi: " + err.message);
+    }
+  }
+
+  if (text === "ℹ️ Ma'lumot") {
+    bot.sendMessage(chatId, "Bu bot orqali ro‘yxatga olinishingiz mumkin.");
+  }
+});
+
+// ✅ Ro‘yxatdan o‘tganlarni Telegramga yuboruvchi funksiya
 async function notifyTelegram(data) {
-	const message = `
+  const message = `
 🆕 *Yangi ro‘yxat!*
 👤 Ism: ${data.name}
-📧 Email: ${data.email}
-📱 Tel: ${data.phone}
 🎮 O‘yin: ${data.game}
 👥 Jamoa: ${data.is_team ? "Ha" : "Yo‘q"}
-`;
+🏷 Jamoa nomi: ${data.team_name || "-"}
+👤 A'zolar: ${data.team_members || "-"}
+📞 Tel: ${data.phone}
+  `;
 
-	try {
-		await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
-			chat_id: process.env.TELEGRAM_CHAT_ID,
-			text: message,
-			parse_mode: "Markdown",
-			reply_markup: {
-				inline_keyboard: [
-					[
-						{ text: "✅ Tasdiqlash", callback_data: `approve_${data.id}` },
-						{ text: "❌ Rad etish", callback_data: `reject_${data.id}` }
-					]
-				]
-			}
-		});
-	} catch (error) {
-		console.error("❌ Telegramga yuborishda xato:", error.message);
-	}
-}
-
-async function handleCallbackQuery(body, db) {
-	const callback = body.callback_query;
-	const message = callback.message;
-	const chatId = message.chat.id;
-	const data = callback.data;
-	const [action, id] = data.split("_");
-
-	try {
-		const result = await db.query("SELECT * FROM registrations WHERE id = $1", [id]);
-		if (result.rows.length === 0) return;
-
-		const user = result.rows[0];
-		if (action === "approve") {
-	await db.query("UPDATE registrations SET is_approved = true WHERE id = $1", [id]);
-	await sendConfirmationEmail(user.email, user.name, "approved"); // ✅ email yuboriladi
-	await answerBot(chatId, `✅ *${user.name}* tasdiqlandi va email yuborildi.`);
-} else if (action === "reject") {
-	await db.query("DELETE FROM registrations WHERE id = $1", [id]);
-	await sendConfirmationEmail(user.email, user.name, "rejected"); // ❌ email yuboriladi
-	await answerBot(chatId, `❌ *${user.name}* rad etildi va email yuborildi.`);
-}
-
-	} catch (err) {
-		console.error("❌ Callback query xatosi:", err.message);
-	}
-}
-
-async function answerBot(chatId, text) {
-	await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
-		chat_id: chatId,
-		text,
-		parse_mode: "Markdown"
-	});
+  try {
+    await bot.sendMessage(process.env.TELEGRAM_CHAT_ID, message, {
+      parse_mode: "Markdown"
+    });
+  } catch (err) {
+    console.error("❌ Telegramga yuborishda xato:", err.message);
+  }
 }
 
 module.exports = {
-	notifyTelegram,
-	handleCallbackQuery
+  notifyTelegram
 };

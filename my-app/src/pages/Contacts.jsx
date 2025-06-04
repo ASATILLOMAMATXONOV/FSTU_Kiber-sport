@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 const RegisterForm = () => {
 	const [formData, setFormData] = useState({
 		name: "",
-		email: "",
+		telegram: "", // ⬅️ yangi maydon
 		phone: "",
 		game: "",
 		isTeam: false,
@@ -42,7 +42,7 @@ const RegisterForm = () => {
 				setConfirmationMessage("✅ Ro‘yxat qabul qilindi. Javob elektron pochtangizga yuboriladi.");
 				setFormData({
 					name: "",
-					email: "",
+					telegram: "", // ⬅️ tozalash
 					phone: "",
 					game: "",
 					isTeam: false,
@@ -78,8 +78,29 @@ const RegisterForm = () => {
 
 				<form onSubmit={handleSubmit} style={formStyle}>
 					<input type="text" name="name" placeholder="Ismingiz" value={formData.name} onChange={handleChange} required style={inputStyle} />
-					<input type="email" name="email" placeholder="Elektron pochta manzili" value={formData.email} onChange={handleChange} required style={inputStyle} />
-					<input type="tel" name="phone" placeholder="Telefon raqami" value={formData.phone} onChange={handleChange} required style={inputStyle} />
+					<input
+						type="text"
+						name="telegram"
+						placeholder="Telegram username (masalan, @username)"
+						value={formData.telegram}
+						onChange={handleChange}
+						required
+						pattern="^@[\w\d_]{4,}$"
+						title="Telegram username '@' belgisi bilan boshlanishi va kamida 5 ta belgidan iborat bo‘lishi kerak"
+						style={inputStyle}
+					/>
+
+					<input
+						type="tel"
+						name="phone"
+						placeholder="Telefon raqami +9989..."
+						value={formData.phone}
+						onChange={handleChange}
+						required
+						pattern="^\+998[0-9]{9}$"
+						title="Telefon raqami +998 bilan boshlanishi va jami 13 ta raqam bo‘lishi kerak"
+						style={inputStyle}
+					/>
 
 					<select name="game" value={formData.game} onChange={handleChange} required style={inputStyle}>
 						<option value="">-- O‘yin turini tanlang --</option>
