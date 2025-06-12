@@ -128,7 +128,15 @@ const Navbar = () => {
 						zIndex: 1200,
 					}}
 				>
-					<Typography variant="h6" sx={{ color: "#f7c600", fontWeight: "bold" }}>
+					<Typography
+						variant="h6"
+						sx={{
+							color: "#f7c600",
+							fontWeight: "bold",
+							fontFamily: "'Orbitron', sans-serif",
+							letterSpacing: 1,
+						}}
+					>
 						FSTU KIBERSPORT
 					</Typography>
 
@@ -158,7 +166,17 @@ const Navbar = () => {
 										},
 									}}
 								>
-									<ListItemText primary={item.text} />
+									<ListItemText
+										primary={item.text}
+										primaryTypographyProps={{
+											sx: {
+												fontFamily: "'Orbitron', sans-serif",
+												fontSize: "0.95rem",
+												fontWeight: 500,
+											},
+										}}
+									/>
+
 								</ListItemButton>
 							</ListItem>
 						))}

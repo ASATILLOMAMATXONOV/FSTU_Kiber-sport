@@ -1,0 +1,15 @@
+.animated-background {
+	background-image: url("../assets/7jiL.gif");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	min-height: 100vh;
+	width: 100%;
+}
+
+.animated-background>* {
+	background-color: rgba(0, 0, 0, 0.6);
+	/* qora shaffof fon */
+	border-radius: 12px;
+	padding: 20px;
+}

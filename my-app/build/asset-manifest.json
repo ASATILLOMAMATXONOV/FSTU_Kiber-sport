@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7b4b1506.css",
+    "main.js": "/static/js/main.51ffaa54.js",
+    "static/media/dota_montage_webm.webm": "/static/media/dota_montage_webm.efb522450cc94c64220d.webm",
+    "static/media/FC25.mp4": "/static/media/FC25.7e833af60c53c173c5f1.mp4",
+    "static/media/CS2.mp4": "/static/media/CS2.7d8fa3fb6e316052a38d.mp4",
+    "static/media/7jiL.gif": "/static/media/7jiL.14580a14b51597e62c7a.gif",
+    "static/media/dota2.png": "/static/media/dota2.271d0f688963869cbd9a.png",
+    "static/media/corpo.jpg": "/static/media/corpo.716504d647f61344b664.jpg",
+    "static/media/cs2.png": "/static/media/cs2.f0b8923b20d4a04d8508.png",
+    "index.html": "/index.html",
+    "main.7b4b1506.css.map": "/static/css/main.7b4b1506.css.map",
+    "main.51ffaa54.js.map": "/static/js/main.51ffaa54.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7b4b1506.css",
+    "static/js/main.51ffaa54.js"
+  ]
+}

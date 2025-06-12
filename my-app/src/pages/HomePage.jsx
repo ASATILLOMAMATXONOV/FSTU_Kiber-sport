@@ -82,13 +82,12 @@ const HomePage = () => {
 							zIndex: 10,
 						}}
 					>
-						<h2>
-						<Countdown targetDate="2025-06-09T00:00:00" /> 
-						</h2>
+						<Countdown targetDate="2025-06-26T00:00:00" />
 					</Typography>
 
 					<div className="scroll-indicator">⬇</div>
 				</Box>
+
 			</div>
 		</motion.div>
 	);

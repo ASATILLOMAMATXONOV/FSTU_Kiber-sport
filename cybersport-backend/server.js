@@ -10,6 +10,17 @@ const approveRoute = require("./routes/approve");
 
 require("./telegram"); // faqat ishlatish uchun
 
+async function connectToDatabase() {
+  const db = require("./db");
+  try {
+    await db.connect();
+    console.log("✅ Ma'lumotlar bazasi bilan bog'lanish muvaffaqiyatli");
+  } catch (error) {
+    console.error("❌ Ma'lumotlar bazasi bilan bog'lanishda xatolik:", error.message);
+    process.exit(1); // Serverni to'xtatish
+  }
+}
+connectToDatabase();
 app.use(cors());
 app.use(bodyParser.json());
 

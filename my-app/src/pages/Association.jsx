@@ -50,14 +50,14 @@ const Association = () => {
 		},
 		{
 			icon: <EmojiEventsIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
-			title: "Ma'lumot",
+			title: "M A ' L U M O T",
 			text: "Kibersportni raqobatbardosh faoliyat sifatida rivojlantirish...",
 			animation: fromBottom,
 			link: "/malumot",
 		},
 		{
 			icon: <SupervisorAccountIcon sx={{ fontSize: 48, color: "#ffc107", mb: 2 }} />,
-			title: "Qo‘llab-quvvatlash",
+			title: "S O V R I N L A R",
 			text: "Metodik va tashkiliy qo‘llab-quvvatlash...",
 			animation: fromRight,
 			link: "/qollab",

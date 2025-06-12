@@ -5,7 +5,7 @@ require("dotenv").config();
 const db = require("./db");
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true });
-
+console.log("telegram token:", process.env.TELEGRAM_TOKEN);
 bot.setMyCommands([
   { command: "/menu", description: "Asosiy menyuni ko‘rsatish" }
 ]);
@@ -39,15 +39,17 @@ bot.on("message", async (msg) => {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Registratsiyalar");
 
-      worksheet.columns = [
-        { header: "ID", key: "id", width: 10 },
-        { header: "Ism", key: "name", width: 20 },
-        { header: "Telefon", key: "phone", width: 20 },
-        { header: "O‘yini", key: "game", width: 20 },
-        { header: "Jamoa", key: "is_team", width: 10 },
-        { header: "Jamoa nomi", key: "team_name", width: 20 },
-        { header: "A’zolar", key: "team_members", width: 30 }
-      ];
+     worksheet.columns = [
+  { header: "ID", key: "id", width: 10 },
+  { header: "Ism", key: "name", width: 20 },
+  { header: "Telegram", key: "telegram", width: 25 },
+  { header: "Telefon", key: "phone", width: 20 },
+  { header: "O‘yini", key: "game", width: 20 },
+  { header: "Jamoa", key: "is_team", width: 10 },
+  { header: "Jamoa nomi", key: "team_name", width: 20 },
+  { header: "A’zolar", key: "team_members", width: 30 }
+];
+
 
       users.forEach(user => worksheet.addRow(user));
 
@@ -68,7 +70,7 @@ bot.on("message", async (msg) => {
 
 // ✅ Ro‘yxatdan o‘tganlarni Telegramga yuboruvchi funksiya
 async function notifyTelegram(data) {
-  const message = `
+ const message = `
 🆕 *Yangi ro‘yxat!*
 👤 Ism: ${data.name}
 🎮 O‘yin: ${data.game}
@@ -76,7 +78,8 @@ async function notifyTelegram(data) {
 🏷 Jamoa nomi: ${data.team_name || "-"}
 👤 A'zolar: ${data.team_members || "-"}
 📞 Tel: ${data.phone}
-  `;
+💬 Telegram: ${data.telegram || "-"}
+`;
 
   try {
     await bot.sendMessage(process.env.TELEGRAM_CHAT_ID, message, {

@@ -28,10 +28,10 @@ const Countdown = ({ targetDate }) => {
 	}, []);
 
 	return (
-		<div style={{ marginTop: "15px", color: "#ffc107", fontSize: "1.1rem" }}>
+		<div style={{ marginTop: "15px", color: "#ffc107", fontFamily: "'Orbitron', sans-serif", fontSize: "1.1rem" }}>
 			{timeLeft.days != null ? (
 				<>
-					⏳ Turnirgacha: <br /> {timeLeft.days} kun, {timeLeft.hours} soat, {timeLeft.minutes} daqiqa, {timeLeft.seconds} soniya
+					⏳ Turnirgacha: <br /> <br /> {timeLeft.days} kun, {timeLeft.hours} soat, {timeLeft.minutes} daqiqa, {timeLeft.seconds} soniya
 				</>
 			) : (
 				<span>🚀 Turnir boshlandi!</span>

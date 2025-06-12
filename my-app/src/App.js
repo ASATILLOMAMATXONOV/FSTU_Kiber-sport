@@ -1,5 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import Association from "./pages/Association";
 import CyberSportGoals from "./pages/CyberSportGoals";
@@ -15,7 +17,12 @@ import "./App.css";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <Routes>
         <Route
           path="/"
@@ -33,7 +40,7 @@ function App() {
         <Route path="/malumot" element={<MalumotPage />} />
         <Route path="/qollab" element={<QollabPage />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

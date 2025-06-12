@@ -30,36 +30,52 @@ const RegisterForm = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:3001/register", {
+			// Jamoa a'zolari bo‘lsa, stringni massivga aylantirish
+			const membersArray = formData.teamMembers
+				? formData.teamMembers.split(",").map(m => m.trim())
+				: [];
+			//https://cybersport.fstu.uz/api/
+			//http://192.168.10.118:3001/register
+			const response = await fetch("https://cybersport.fstu.uz/api/register", {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": "application/json"
 				},
-				body: JSON.stringify(formData),
+				body: JSON.stringify({
+					name: formData.name,
+					telegram: formData.telegram, 
+					phone: formData.phone,
+					game: formData.game,
+					isTeam: formData.isTeam,
+					teamName: formData.teamName,
+					teamMembers: membersArray // massiv sifatida yuboriladi
+				})
 			});
 
+			const data = await response.json();
+
 			if (response.ok) {
-				setConfirmationMessage("✅ Ro‘yxat qabul qilindi. Javob elektron pochtangizga yuboriladi.");
+				setConfirmationMessage("✅ Ro‘yxatdan o‘tish muvaffaqiyatli yakunlandi!");
 				setFormData({
 					name: "",
-					telegram: "", // ⬅️ tozalash
+					telegram: "",
 					phone: "",
 					game: "",
 					isTeam: false,
 					teamName: "",
-					teamMembers: "",
+					teamMembers: ""
 				});
-
 				// 5 soniyadan keyin xabarni yo'qotish
 				setTimeout(() => setConfirmationMessage(""), 5000);
 			} else {
-				setConfirmationMessage("❌ Xatolik yuz berdi. Qayta urinib ko‘ring.");
+				setConfirmationMessage("❌ Xatolik: " + (data.error || "Ma'lumot yuborilmadi"));
 			}
 		} catch (error) {
-			console.error("Error submitting form:", error);
-			setConfirmationMessage("❌ Server bilan bog‘lanishda muammo.");
+			console.error("❌ Serverga ulanishda xatolik:", error);
+			setConfirmationMessage("❌ Serverga ulanishda xatolik");
 		}
 	};
+
 
 	return (
 		<div style={pageStyle} id="aloqa">

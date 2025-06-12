@@ -1,12 +1,18 @@
-// db.js
 const { Pool } = require("pg");
 
 const pool = new Pool({
-	user: "postgres",       // o‘zgartiring
-	host: "localhost",
+	user: "postgres",
+	host: "192.168.10.118",
 	database: "cybersport",
-	password: "123456", // o‘zgartiring
+	password: "12345678",
 	port: 5432,
 });
 
+
+
+
+
 module.exports = pool;
+
+
+

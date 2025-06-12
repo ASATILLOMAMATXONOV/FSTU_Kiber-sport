@@ -1,12 +1,29 @@
-node_modules
-/node_modules       # juda katta papka, kerak emas
-.env
-*/.env               # maxfiy fayl
-*.log               # log fayllar
-*.local             # lokal sozlamalar
-.DS_Store           # macOS uchun
-/build              # qurilgan fayllar (React, Vue, va boshqalar)
-/coverage           # test coverage natijalari
-/.vscode            # Visual Studio Code sozlamalari
-*/*.mp4
-*.mp4
+# Node modules
+node_modules/
+
+# Environment files
+*.env
+**/.env
+
+# Logs
+*.log
+
+# Local settings
+*.local
+
+# MacOS
+.DS_Store
+
+# Build output
+/build/
+/dist/
+
+# Test coverage
+/coverage/
+
+# Editor configs
+.vscode/
+
+# Video files
+**/*.mp4
+
